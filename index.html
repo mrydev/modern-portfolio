@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMERIS — Architectural Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Modern tarayıcılar için yumuşak kaydırma (smooth scroll) efekti */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Brutalist bir his için harici fontlar yerine sistem fontlarını kullanma */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Work+Sans:wght@700;900&display=swap');
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-brutalist { font-family: 'Work Sans', sans-serif; }
+        .font-mono-brutalist { font-family: 'Roboto Mono', monospace; }
+
+        /* Blueprint arka plan dokusu için özel sınıf */
+        .bg-blueprint {
+            background-image: url("data:image/svg+xml,%3csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cpath d='M0 40V0h40' stroke='%23374151'/%3e%3c/g%3e%3c/svg%3e");
+        }
+
+        /* Yazma efekti için yanıp sönen imleç */
+        .cursor {
+            display: inline-block;
+            background-color: white;
+            margin-left: 2px;
+            width: 4px; /* İmleç kalınlığı */
+            animation: blink 1s infinite;
+        }
+        .cursor.typing {
+            animation: none; /* Yazarken imlecin yanıp sönmesini durdur */
+        }
+
+        @keyframes blink {
+            0% { background-color: white; }
+            49% { background-color: white; }
+            50% { background-color: transparent; }
+            99% { background-color: transparent; }
+            100% { background-color: white; }
+        }
+
+        /* Brutalist Buton Stili */
+        .btn-brutalist {
+            position: relative;
+            display: inline-block;
+            border: 2px solid white;
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+            box-shadow: 4px 4px 0 0 white; /* Başlangıçtaki katı gölge */
+        }
+
+        .btn-brutalist:hover {
+            transform: translate(2px, 2px); /* Butonu hafifçe içeri bastır */
+            box-shadow: 2px 2px 0 0 white; /* Gölgeyi küçült */
+        }
+
+        .btn-brutalist:active {
+            transform: translate(4px, 4px); /* Tıklayınca tamamen bastır */
+            box-shadow: 0 0 0 0 white; /* Gölgeyi tamamen kaldır */
+        }
+
+        /* Kırmızı Buton Varyasyonu */
+        .btn-brutalist.btn-red {
+            border-color: #DC2626; /* red-600 */
+            box-shadow: 4px 4px 0 0 #DC2626;
+        }
+
+        .btn-brutalist.btn-red:hover {
+            box-shadow: 2px 2px 0 0 #DC2626;
+        }
+
+        .btn-brutalist.btn-red:active {
+            box-shadow: 0 0 0 0 #DC2626;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white bg-blueprint">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 right-0 z-50 p-4 border-b-2 border-gray-700 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-widest cursor-pointer" onclick="scrollToTop()">KONSTRUKT</h1>
+            <nav class="hidden md:flex space-x-6 font-mono-brutalist uppercase text-sm">
+                <a href="#about-section" id="nav-about" onclick="showSection('about')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">About</a>
+                <a href="#projects-section" id="nav-projects" onclick="showSection('projects')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">Projects</a>
+                <a href="#academic-section" id="nav-academic" onclick="showSection('academic')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">Academic</a>
+                <a href="#skills-section" id="nav-skills" onclick="showSection('skills')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">Skills</a>
+                <a href="#cv-section" id="nav-cv" onclick="showSection('cv')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">CV</a>
+                <a href="#contact-section" id="nav-contact" onclick="showSection('contact')" class="nav-link p-1 border-b-2 border-transparent hover:border-white">Contact</a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden font-mono-brutalist text-xl">[MENU]</button>
+        </div>
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 bg-gray-900 border-t-2 border-gray-700">
+             <nav class="flex flex-col items-center space-y-4 py-4 font-mono-brutalist uppercase text-sm">
+                <a href="#about-section" onclick="showSection('about'); closeMobileMenu();" class="nav-link-mobile p-2">About</a>
+                <a href="#projects-section" onclick="showSection('projects'); closeMobileMenu();" class="nav-link-mobile p-2">Projects</a>
+                <a href="#academic-section" onclick="showSection('academic'); closeMobileMenu();" class="nav-link-mobile p-2">Academic</a>
+                <a href="#skills-section" onclick="showSection('skills'); closeMobileMenu();" class="nav-link-mobile p-2">Skills</a>
+                <a href="#cv-section" onclick="showSection('cv'); closeMobileMenu();" class="nav-link-mobile p-2">CV</a>
+                <a href="#contact-section" onclick="showSection('contact'); closeMobileMenu();" class="nav-link-mobile p-2">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 pt-24 pb-12">
+        <!-- SECTIONS WRAPPER -->
+        <div id="content">
+
+            <!-- HOME SECTION -->
+            <section id="home-section" class="section-content min-h-[80vh] flex flex-col justify-center items-center text-center mb-32 scroll-mt-24">
+                <h2 class="font-brutalist font-black text-6xl md:text-9xl tracking-tighter">EMERIS</h2>
+                <p class="font-mono-brutalist text-lg md:text-2xl text-gray-400 mt-2 h-8">
+                    <span id="typing-text"></span><span class="cursor"> </span>
+                </p>
+                <button onclick="showSection('projects')" class="btn-brutalist mt-12 font-mono-brutalist uppercase bg-white text-black text-lg px-8 py-3">
+                    View My Work
+                </button>
+            </section>
+
+            <!-- ABOUT SECTION -->
+            <section id="about-section" class="section-content mb-32 scroll-mt-24">
+                <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">About Me</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-700 border-2 border-gray-700">
+                    <div class="p-6 bg-black">
+                        <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// BIO</h3>
+                        <p class="font-mono-brutalist text-gray-300 leading-relaxed">
+                            An architect driven by the principles of brutalism, I create spaces that are honest, functional, and monumental. My work strips away the superfluous to reveal the raw beauty of structure and material.
+                        </p>
+                    </div>
+                     <div class="p-6 bg-black">
+                        <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// PHILOSOPHY</h3>
+                        <p class="font-mono-brutalist text-gray-300 leading-relaxed">
+                            Architecture should be a testament to its time and place, unapologetic in its form. I focus on exposed concrete, steel, and glass to craft environments that are both imposing and deeply human.
+                        </p>
+                    </div>
+                    <div class="p-6 bg-black">
+                        <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// CONTACT</h3>
+                        <ul class="font-mono-brutalist text-gray-300 space-y-2">
+                            <li><span class="text-gray-500">EMAIL:</span> khapnols@proton.me</li>
+                            <li><span class="text-gray-500">PHONE:</span> +90 123 123 12 12</li>
+                            <li><span class="text-gray-500">STUDIO:</span> Izmir, Turkiye</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS SECTION -->
+            <section id="projects-section" class="section-content mb-32 scroll-mt-24">
+                <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">Projects</h2>
+                <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-700 border-2 border-gray-700">
+                    <!-- Project items will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- ACADEMIC WORKS SECTION -->
+            <section id="academic-section" class="section-content mb-32 scroll-mt-24">
+                <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">Academic Works</h2>
+                <div class="space-y-px bg-gray-700 border-2 border-gray-700">
+                    <!-- Akademik Çalışma 1 -->
+                    <div class="bg-black p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h3 class="font-brutalist font-bold text-2xl">Parametric Design in Brutalist Structures</h3>
+                            <p class="font-mono-brutalist text-gray-400 mt-1">Journal of Digital Architecture, Vol. 12, 2023</p>
+                        </div>
+                        <a href="#" target="_blank" class="flex-shrink-0 font-mono-brutalist uppercase bg-transparent text-white text-sm px-6 py-2 border-2 border-white hover:bg-white hover:text-black">
+                            Read Paper [PDF]
+                        </a>
+                    </div>
+                    <!-- Akademik Çalışma 2 -->
+                    <div class="bg-black p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h3 class="font-brutalist font-bold text-2xl">The Social Impact of Concrete Megastructures</h3>
+                            <p class="font-mono-brutalist text-gray-400 mt-1">International Conference on Urbanism (ICU), 2022</p>
+                        </div>
+                        <a href="#" target="_blank" class="flex-shrink-0 font-mono-brutalist uppercase bg-transparent text-white text-sm px-6 py-2 border-2 border-white hover:bg-white hover:text-black">
+                            View Presentation
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SKILLS SECTION -->
+            <section id="skills-section" class="section-content mb-32 scroll-mt-24">
+                <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">Toolkit</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">AutoCAD</span>
+                            <span class="text-sm text-gray-400">95%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">Rhino 3D</span>
+                             <span class="text-sm text-gray-400">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">Grasshopper</span>
+                             <span class="text-sm text-gray-400">40%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">SketchUp</span>
+                             <span class="text-sm text-gray-400">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                     <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">Lumion / Twinmotion</span>
+                             <span class="text-sm text-gray-400">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <!-- Skill Item -->
+                    <div class="font-mono-brutalist">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-lg">Adobe Suite (PS, ID, AI)</span>
+                             <span class="text-sm text-gray-400">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 border-2 border-gray-600 p-1">
+                            <div class="bg-red-600 h-3" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CV SECTION -->
+            <section id="cv-section" class="section-content mb-32 scroll-mt-24">
+                 <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">CV / RESUME</h2>
+                 <div class="text-center mb-12">
+                     <a href="CV.pdf" download="Emre_Yavuz_CV.pdf" class="btn-brutalist font-mono-brutalist uppercase bg-black text-white text-lg px-10 py-4">
+                        Download Full CV [PDF]
+                     </a>
+                 </div>
+                 <div class="bg-gray-900 p-4 md:p-8 border-2 border-gray-700">
+                    <pre class="font-mono-brutalist text-sm text-gray-300 whitespace-pre-wrap">
+KONSTRUKT ARCHITECTURE
+Berlin, Germany | contact@konstrukt.dev | +1 (234) 567-890
+
+// SUMMARY
+--------------------------------------------------
+Brutalist architect with 8+ years of experience in designing monumental public and private structures. Expertise in raw material expression, spatial purity, and computational design via Grasshopper.
+
+// EXPERIENCE
+--------------------------------------------------
+LEAD ARCHITECT, MONOLITH GROUP, Berlin
+2018 - Present
+- Led design for the "Titan" public library project.
+- Managed a team of 5 junior architects.
+- Specialized in pre-cast concrete facade systems.
+
+JUNIOR ARCHITECT, FORMWERK STUDIOS, Zurich
+2015 - 2018
+- Assisted in the design of residential concrete housing.
+- Produced construction documents and 3D visualizations.
+
+// EDUCATION
+--------------------------------------------------
+MASTER OF ARCHITECTURE
+Technical University of Berlin, 2015
+
+BACHELOR OF SCIENCE IN ARCHITECTURE
+Swiss Federal Institute of Technology, 2013
+
+// AWARDS
+--------------------------------------------------
+"CONCRETE FUTURES" PRIZE, 2021
+For the "Titan Library" concept design.
+                    </pre>
+                 </div>
+            </section>
+            
+            <!-- CONTACT SECTION -->
+            <section id="contact-section" class="section-content scroll-mt-24">
+                <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">Contact</h2>
+                <div class="max-w-3xl mx-auto">
+                    <form action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="font-mono-brutalist uppercase text-sm text-gray-400">Name</label>
+                            <input type="text" id="name" name="name" class="w-full bg-transparent border-b-2 border-gray-600 focus:border-white p-2 text-lg outline-none">
+                        </div>
+                        <div>
+                            <label for="email" class="font-mono-brutalist uppercase text-sm text-gray-400">Email</label>
+                            <input type="email" id="email" name="email" class="w-full bg-transparent border-b-2 border-gray-600 focus:border-white p-2 text-lg outline-none">
+                        </div>
+                         <div>
+                            <label for="message" class="font-mono-brutalist uppercase text-sm text-gray-400">Message</label>
+                            <textarea id="message" name="message" rows="4" class="w-full bg-transparent border-b-2 border-gray-600 focus:border-white p-2 text-lg outline-none"></textarea>
+                        </div>
+                        <div class="text-center pt-4">
+                             <button type="submit" class="btn-brutalist btn-red font-mono-brutalist uppercase bg-red-600 text-white text-lg px-12 py-4">
+                                SUBMIT_
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-12 font-mono-brutalist text-gray-500">
+                        <p>FIND ME ON</p>
+                        <div class="flex justify-center space-x-6 mt-4 text-white text-lg">
+                            <a href="https://www.linkedin.com/in/emreyvz/" class="hover:text-red-500">[IN]</a>
+                            <a href="https://www.researchgate.net/profile/Emre-Yavuz-15?ev=hdr_xprf" class="hover:text-red-500">[RG]</a>
+                            <a href="https://www.instagram.com/emreyvz_/" class="hover:text-red-500">[IG]</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- PROJECT DETAIL OVERLAY -->
+    <div id="project-overlay" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95 p-4 md:p-8 overflow-y-auto">
+        <button onclick="hideProject()" class="fixed top-4 right-4 font-mono-brutalist text-3xl text-white hover:text-red-500 z-50">[CLOSE]</button>
+        <div id="project-detail-content" class="container mx-auto">
+            <!-- Project details will be injected here -->
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA ---
+        const projects = [
+            { id: 1, title: "Private Residence", category: "Residential // Glass & Concrete", image: "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", description: "This residence explores the dialogue between transparent and opaque materials, using vast glass panes and raw concrete walls to create a space that is both open to nature and a protective sanctuary.", visuals: ["https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", "https://i.ibb.co/KchGxr3x/A3defterr-13.png"], diagram: "https://i.ibb.co/tMS1vMtW/inno.png" },
+            { id: 2, title: "Burhaniye Sailing Club", category: "Public // Steel", image: "https://i.ibb.co/KchGxr3x/A3defterr-13.png", description: "A lightweight steel structure designed to be a landmark on the coastline. The project emphasizes modularity and a strong connection with the sea, reflecting the dynamism of sailing.", visuals: ["https://i.ibb.co/KchGxr3x/A3defterr-13.png", "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg"], diagram: "https://i.ibb.co/tMS1vMtW/inno.png" },
+            { id: 3, title: "BAUN Innovation Center", category: "Public // Glass & Concrete", image: "https://i.ibb.co/tMS1vMtW/inno.png", description: "The innovation center is conceived as a 'concrete incubator' for ideas. Its robust, solid form provides a stable environment for creative work, while strategically placed openings foster collaboration.", visuals: ["https://i.ibb.co/tMS1vMtW/inno.png", "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg"], diagram: "https://i.ibb.co/KchGxr3x/A3defterr-13.png" },
+        ];
+
+        // --- NAVIGATION & SCROLLING LOGIC ---
+        function showSection(sectionId) {
+            const targetSection = document.getElementById(sectionId + '-section');
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function updateNav(activeSectionId) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('border-white', 'text-red-500');
+                link.classList.add('border-transparent');
+                
+                const navId = 'nav-' + activeSectionId.replace('-section', '');
+                if (link.id === navId) {
+                    link.classList.add('border-white');
+                    link.classList.remove('border-transparent');
+                }
+            });
+        }
+
+        // --- PROJECT DISPLAY LOGIC ---
+        function populateProjects() {
+            const grid = document.getElementById('project-grid');
+            projects.forEach(p => {
+                const projectItem = `
+                    <div class="group relative bg-black p-4 cursor-pointer" onclick="showProject(${p.id})">
+                        <img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-opacity duration-200 group-hover:opacity-40">
+                        <div class="absolute inset-0 p-4 flex flex-col justify-end bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                             <h3 class="font-brutalist font-bold text-2xl">${p.title}</h3>
+                             <p class="font-mono-brutalist text-sm text-gray-400 mt-1">${p.category}</p>
+                        </div>
+                        <div class="absolute top-0 left-0 p-4 font-mono-brutalist uppercase text-sm group-hover:hidden">${p.title}</div>
+                    </div>
+                `;
+                grid.innerHTML += projectItem;
+            });
+        }
+
+        function showProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            
+            const overlay = document.getElementById('project-overlay');
+            const contentDiv = document.getElementById('project-detail-content');
+            
+            contentDiv.innerHTML = `
+                <div class="pt-16">
+                    <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter">${project.title}</h2>
+                    <p class="font-mono-brutalist text-lg text-gray-400 mt-2 mb-8">${project.category}</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                        <div class="lg:col-span-3">
+                             <img src="${project.visuals[0]}" alt="Visual for ${project.title}" class="w-full object-cover mb-4 border-2 border-gray-700">
+                             <img src="${project.visuals[1]}" alt="Visual for ${project.title}" class="w-full object-cover border-2 border-gray-700">
+                        </div>
+                        <div class="lg:col-span-2">
+                             <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// DESCRIPTION</h3>
+                             <p class="font-mono-brutalist text-gray-300 leading-relaxed mb-8">${project.description}</p>
+                             <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// DIAGRAM</h3>
+                             <img src="${project.diagram}" alt="Diagram for ${project.title}" class="w-full object-cover border-2 border-gray-700">
+                        </div>
+                    </div>
+                </div>
+            `;
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideProject() {
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- MOBILE MENU LOGIC ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // --- SCROLL-BASED NAVIGATION HIGHLIGHT ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateNav(entry.target.id);
+                }
+            });
+        }, { 
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0 
+        });
+
+        // --- TYPING SUBTITLE ANIMATION ---
+        const typingTextElement = document.getElementById('typing-text');
+        const words = ["KONSTRUKT", "DESIGN", "CONCRETE", "STRUCTURE", "FORM", "MATERIAL"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            const displayText = isDeleting 
+                ? currentWord.substring(0, charIndex - 1)
+                : currentWord.substring(0, charIndex + 1);
+                
+            if (typingTextElement) {
+                typingTextElement.textContent = displayText;
+            }
+            charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+
+            let typeSpeed = isDeleting ? 75 : 150;
+
+            if (!isDeleting && displayText === currentWord) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && displayText === '') {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            populateProjects();
+            document.querySelectorAll('.section-content').forEach((section) => {
+                observer.observe(section);
+            });
+            
+            // Yazma animasyonunu başlat
+            setTimeout(type, 1000);
+        });
+    </script>
+
+</body>
+</html>
