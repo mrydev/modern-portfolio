@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame 360 Test</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-sky src="https://images.unsplash.com/photo-1557971370-e7298ee473fb?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="5000" fill="forwards" repeat="indefinite" easing="linear"></a-animation>
+      </a-sky>
+    </a-scene>
+  </body>
+</html>
