@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proje Haritası</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <style>
+        #map { height: 600px; }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    var map = L.map('map').setView([39.9334, 32.8597], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var projects = [
+        {
+            "name": "Proje 1",
+            "location": "İstanbul, Türkiye",
+            "lat": 41.0082,
+            "lon": 28.9784
+        },
+        {
+            "name": "Proje 2",
+            "location": "Konya, Türkiye",
+            "lat": 37.87,
+            "lon": 32.49
+        },
+        {
+            "name": "Proje 3",
+            "location": "İstanbul, Türkiye",
+            "lat": 41.0082,
+            "lon": 28.9784
+        }
+    ];
+
+    for (var i = 0; i < projects.length; i++) {
+        var project = projects[i];
+        var marker = L.marker([project.lat, project.lon]).addTo(map);
+        marker.bindPopup("<b>" + project.name + "</b><br>" + project.location);
+    }
+</script>
+
+</body>
+</html>

@@ -23,9 +23,10 @@
         .bg-blueprint {
             background-image: url("data:image/svg+xml,%3csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cpath d='M0 40V0h40' stroke='%23374151'/%3e%3c/g%3e%3c/svg%3e");
         }
-
+        
+        /* Hero Section */
         #pano-hero {
-            height: 100vh;
+            height: 100vh; /* Tam ekran yüksekliği */
             width: 100%;
             position: relative;
         }
@@ -59,7 +60,7 @@
         }
 
         .section-divider {
-            border-top: 2px solid #4B5563;
+            border-top: 2px solid #4B5563; /* gray-600 */
             margin-top: 4rem;
             margin-bottom: 4rem;
         }
@@ -70,12 +71,8 @@
 
     <!-- PANORAMIC HERO SECTION -->
     <section id="pano-hero">
-        <a-scene embedded style="height: 100%; width: 100%;" cursor="rayOrigin: mouse" debug-component>
-            <a-sky 
-                src="https://images.unsplash.com/photo-1557971370-e7298ee473fb?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                rotation="0 0 0"
-                auto-rotate>
-            </a-sky>
+        <a-scene embedded style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" cursor="rayOrigin: mouse">
+            <a-sky id="my-sky" src="https://images.unsplash.com/photo-1557971370-e7298ee473fb?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></a-sky>
         </a-scene>
         <div class="hero-overlay">
             <a href="index.html#projects-section" class="back-button font-mono-brutalist uppercase bg-white text-black text-sm px-6 py-2 border-2 border-black hover:bg-gray-200 no-underline">
@@ -95,7 +92,8 @@
 
     <!-- MAIN CONTENT -->
     <main id="project-content" class="container mx-auto px-4 py-16 bg-blueprint">
-        <!-- PROJECT INFO -->
+
+        <!-- PROJECT INFO & FACT SHEET -->
         <section id="project-intro" class="mb-12 pt-16">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-2">
@@ -128,7 +126,7 @@
         
         <div class="section-divider"></div>
 
-        <!-- TECHNICAL -->
+        <!-- TECHNICAL DRAWINGS & MATERIALS -->
         <section id="technical-details">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-2">
@@ -156,28 +154,20 @@
                 </div>
             </div>
         </section>
+
     </main>
 
-    <!-- JS: Panorama Auto Rotate -->
     <script>
-        AFRAME.registerComponent('debug-component', {
-            init: function () {
-                console.log('A-Frame scene loaded and debug component initialized!');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const sky = document.getElementById('my-sky');
+            let rotationY = 0;
 
-        AFRAME.registerComponent('auto-rotate', {
-            schema: {
-                speed: { type: 'number', default: 0.05 } // derece/saniye
-            },
-            tick: function (time, timeDelta) {
-                const el = this.el;
-                const rotation = el.getAttribute('rotation');
-                rotation.y += this.data.speed * (timeDelta / 16.666); // 60fps eşleniği
-                if (rotation.y >= 360) rotation.y -= 360;
-                el.setAttribute('rotation', rotation);
-            }
+            setInterval(() => {
+                rotationY += 0.01; // Dönüş hızını buradan ayarlayabilirsiniz
+                sky.setAttribute('rotation', `0 ${rotationY} 0`);
+            }, 20);
         });
     </script>
+
 </body>
 </html>

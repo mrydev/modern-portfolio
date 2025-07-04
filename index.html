@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMERIS — Architectural Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
         /* Modern tarayıcılar için yumuşak kaydırma (smooth scroll) efekti */
         html {
@@ -80,6 +82,55 @@
         .btn-brutalist.btn-red:active {
             box-shadow: 0 0 0 0 #DC2626;
         }
+        #map {
+            height: 500px; 
+            border: 2px solid #4A5568; 
+        }
+
+        /* Brutalist Map Stil Ayarlamaları */
+        .leaflet-tile-pane {
+            filter: grayscale(1) contrast(1.2) brightness(0.8);
+        }
+
+        .brutalist-marker-icon {
+            background-color: #DC2626;
+            border: 1px solid black;
+            width: 14px !important;
+            height: 14px !important;
+            border-radius: 0;
+            box-shadow: 1px 1px 0 0 white;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            border-radius: 0;
+            box-shadow: 4px 4px 0 0 white;
+        }
+
+        .leaflet-popup-content {
+            
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
+        }
+
+        .leaflet-popup-content a{
+            color: #DC2626;
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
+        }
+
+        .leaflet-popup-tip-container {
+            
+            display: none; /* Oku kaldır */
+        }
+
+        .leaflet-popup-close-button {
+            
+            color: #DC2626 !important;
+        }
+
     </style>
 </head>
 
@@ -158,8 +209,11 @@
             <!-- PROJECTS SECTION -->
             <section id="projects-section" class="section-content mb-32 scroll-mt-24">
                 <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter mb-8">Projects</h2>
-                <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-700 border-2 border-gray-700">
-                    <!-- Project items will be injected here by JavaScript -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div id="map" class="md:col-span-2 h-[500px] bg-gray-900 border-2 border-gray-700"></div>
+                    <div id="project-list" class="flex flex-col space-y-px bg-gray-700 border-2 border-gray-700">
+                        <!-- Proje listesi buraya gelecek -->
+                    </div>
                 </div>
             </section>
 
@@ -345,9 +399,9 @@ For the "Titan Library" concept design.
     <script>
         // --- DATA ---
         const projects = [
-            { id: 1, title: "Private Residence", category: "Residential // Glass & Concrete", image: "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", description: "This residence explores the dialogue between transparent and opaque materials, using vast glass panes and raw concrete walls to create a space that is both open to nature and a protective sanctuary." },
-            { id: 2, title: "Burhaniye Sailing Club", category: "Public // Steel", image: "https://i.ibb.co/KchGxr3x/A3defterr-13.png", description: "A lightweight steel structure designed to be a landmark on the coastline. The project emphasizes modularity and a strong connection with the sea, reflecting the dynamism of sailing." },
-            { id: 3, title: "BAUN Innovation Center", category: "Public // Glass & Concrete", image: "https://i.ibb.co/tMS1vMtW/inno.png", description: "The innovation center is conceived as a 'concrete incubator' for ideas. Its robust, solid form provides a stable environment for creative work, while strategically placed openings foster collaboration." },
+            { id: 1, title: "Private Residence", location: "İstanbul, Türkiye", lat: 41.0082, lon: 28.9784, category: "Residential // Glass & Concrete", image: "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", description: "This residence explores the dialogue between transparent and opaque materials, using vast glass panes and raw concrete walls to create a space that is both open to nature and a protective sanctuary." },
+            { id: 2, title: "Burhaniye Sailing Club", location: "Konya, Türkiye", lat: 37.87, lon: 32.49, category: "Public // Steel", image: "https://i.ibb.co/KchGxr3x/A3defterr-13.png", description: "A lightweight steel structure designed to be a landmark on the coastline. The project emphasizes modularity and a strong connection with the sea, reflecting the dynamism of sailing." },
+            { id: 3, title: "BAUN Innovation Center", location: "İstanbul, Türkiye", lat: 41.0082, lon: 28.9784, category: "Public // Glass & Concrete", image: "https://i.ibb.co/tMS1vMtW/inno.png", description: "The innovation center is conceived as a 'concrete incubator' for ideas. Its robust, solid form provides a stable environment for creative work, while strategically placed openings foster collaboration." },
         ];
 
         // --- NAVIGATION & SCROLLING LOGIC ---
@@ -375,23 +429,49 @@ For the "Titan Library" concept design.
             });
         }
 
-        // --- PROJECT DISPLAY LOGIC ---
-        function populateProjects() {
-            const grid = document.getElementById('project-grid');
+        // --- PROJECT MAP & LIST LOGIC ---
+        function initializeProjectsSection() {
+            const projectList = document.getElementById('project-list');
+            
+            // Haritayı oluştur
+            var map = L.map('map').setView([39.9334, 32.8597], 5);
+            L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+                className: 'map-tiles'
+            }).addTo(map);
+
+            // Brutalist marker ikonu
+            const brutalistIcon = L.divIcon({
+                className: 'brutalist-marker-icon',
+                iconSize: [12, 12]
+            });
+
+            // Projeleri listele ve haritaya pin ekle
             projects.forEach(p => {
-                const projectItem = `
-                    <a href="project-${p.id}.html" class="group relative bg-black p-4 cursor-pointer">
-                        <img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-opacity duration-200 group-hover:opacity-40">
-                        <div class="absolute inset-0 p-4 flex flex-col justify-end bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                             <h3 class="font-brutalist font-bold text-2xl">${p.title}</h3>
-                             <p class="font-mono-brutalist text-sm text-gray-400 mt-1">${p.category}</p>
-                        </div>
-                        <div class="absolute top-0 left-0 p-4 font-mono-brutalist uppercase text-sm group-hover:hidden">${p.title}</div>
-                    </a>
+                // Proje listesi öğesi oluştur
+                const listItem = `
+                    <div class="bg-black p-4 cursor-pointer border-b-2 border-gray-800 hover:bg-gray-800">
+                        <a href="project-${p.id}.html">
+                            <h3 class="font-brutalist font-bold text-xl">${p.title}</h3>
+                            <p class="font-mono-brutalist text-sm text-gray-400 mt-1">${p.location}</p>
+                        </a>
+                    </div>
                 `;
-                grid.innerHTML += projectItem;
+                projectList.innerHTML += listItem;
+
+                // Haritaya marker ekle
+                const marker = L.marker([p.lat, p.lon], {icon: brutalistIcon}).addTo(map);
+                const popupContent = `
+                    <div class="font-mono-brutalist">
+                        <h3 class="font-bold uppercase">${p.title}</h3>
+                        <p class="text-xs text-gray-400">${p.location}</p>
+                        <a href="project-${p.id}.html" class="text-red-500 hover:underline block mt-2">[VIEW]</a>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
             });
         }
+
 
         // --- MOBILE MENU LOGIC ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -451,7 +531,7 @@ For the "Titan Library" concept design.
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', function() {
-            populateProjects();
+            initializeProjectsSection();
             document.querySelectorAll('.section-content').forEach((section) => {
                 observer.observe(section);
             });
