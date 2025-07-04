@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAUN Innovation Center - Proje Detayı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Work+Sans:wght@700;900&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Work Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #fff;
+        }
+        .font-brutalist { font-family: 'Work Sans', sans-serif; }
+        .font-mono-brutalist { font-family: 'Roboto Mono', monospace; }
+        .bg-blueprint {
+            background-image: url("data:image/svg+xml,%3csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cpath d='M0 40V0h40' stroke='%23374151'/%3e%3c/g%3e%3c/svg%3e");
+        }
+        
+        /* Hero Section */
+        #pano-hero {
+            height: 100vh; /* Tam ekran yüksekliği */
+            width: 100%;
+            position: relative;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .hero-overlay .back-button {
+             position: absolute;
+             top: 2rem;
+             left: 2rem;
+        }
+        .scroll-down-indicator {
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .section-divider {
+            border-top: 2px solid #4B5563; /* gray-600 */
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PANORAMIC HERO SECTION -->
+    <section id="pano-hero">
+        <a-scene embedded style="height: 100%; width: 100%;">
+            <a-sky src="https://i.ibb.co/3fC2R3s/360-image.jpg" rotation="0 -130 0"></a-sky>
+        </a-scene>
+        <div class="hero-overlay">
+            <a href="index.html#projects-section" class="back-button font-mono-brutalist uppercase bg-white text-black text-sm px-6 py-2 border-2 border-black hover:bg-gray-200 no-underline">
+                [Tüm Projelere Dön]
+            </a>
+            
+            <div>
+                <h1 class="font-brutalist font-black text-5xl md:text-8xl uppercase tracking-tighter">BAUN Innovation Center</h1>
+                <p class="font-mono-brutalist text-lg md:text-xl text-gray-300 mt-2">Public // Glass & Concrete</p>
+            </div>
+
+            <a href="#project-content" class="scroll-down-indicator no-underline text-white">
+                Detayları Gör<br>↓
+            </a>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main id="project-content" class="container mx-auto px-4 py-16 bg-blueprint">
+
+        <!-- PROJECT INFO & FACT SHEET -->
+        <section id="project-intro" class="mb-12 pt-16">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2">
+                    <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// TASARIM KONSEPTİ</h3>
+                    <p class="font-mono-brutalist text-gray-300 leading-relaxed">
+                        İnovasyon merkezi, fikirler için bir 'beton kuluçka makinesi' olarak tasarlanmıştır. Sağlam, masif formu yaratıcı çalışmalar için istikrarlı bir ortam sağlarken, stratejik olarak yerleştirilmiş açıklıklar ve avlular, kampüs hayatıyla görsel ve fiziksel bir bağ kurarak işbirliğini teşvik eder.
+                    </p>
+                </div>
+                <div class="lg:col-span-1">
+                    <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// KÜNYE</h3>
+                    <ul class="font-mono-brutalist text-gray-300 space-y-2 text-sm">
+                        <li><span class="text-gray-500 w-24 inline-block">LOKASYON:</span> Balıkesir, Türkiye</li>
+                        <li><span class="text-gray-500 w-24 inline-block">YIL:</span> 2021</li>
+                        <li><span class="text-gray-500 w-24 inline-block">ALAN:</span> 3500 m²</li>
+                        <li><span class="text-gray-500 w-24 inline-block">DURUM:</span> Tamamlandı</li>
+                        <li><span class="text-gray-500 w-24 inline-block">İŞVEREN:</span> Balıkesir Üniversitesi</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section id="gallery" class="mb-12">
+             <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// GÖRSELLER</h3>
+             <div class="grid grid-cols-2 gap-px bg-gray-700 border-2 border-gray-700">
+                <img src="https://i.ibb.co/tMS1vMtW/inno.png" alt="Görsel 1" class="w-full h-auto object-cover">
+                <img src="https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg" alt="Görsel 2" class="w-full h-auto object-cover">
+            </div>
+        </section>
+        
+        <div class="section-divider"></div>
+
+        <!-- TECHNICAL DRAWINGS & MATERIALS -->
+        <section id="technical-details">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2">
+                    <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// TEKNİK ÇİZİMLER</h3>
+                    <div class="bg-gray-900 p-4 border-2 border-gray-700">
+                        <img src="https://i.ibb.co/KchGxr3x/A3defterr-13.png" alt="Teknik Çizim" class="w-full h-auto object-contain">
+                    </div>
+                </div>
+                <div class="lg:col-span-1">
+                    <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// MALZEME PALETİ</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-500 mr-4 border-2 border-gray-400"></div>
+                            <span class="font-mono-brutalist text-lg">Brüt Beton</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-200 opacity-50 mr-4 border-2 border-blue-100"></div>
+                            <span class="font-mono-brutalist text-lg">Geniş Yüzey Cam</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-green-900 mr-4 border-2 border-green-700"></div>
+                            <span class="font-mono-brutalist text-lg">Yeşil Çatı Sistemi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

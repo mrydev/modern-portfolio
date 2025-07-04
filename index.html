@@ -339,21 +339,15 @@ For the "Titan Library" concept design.
         </div>
     </main>
 
-    <!-- PROJECT DETAIL OVERLAY -->
-    <div id="project-overlay" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95 p-4 md:p-8 overflow-y-auto">
-        <button onclick="hideProject()" class="fixed top-4 right-4 font-mono-brutalist text-3xl text-white hover:text-red-500 z-50">[CLOSE]</button>
-        <div id="project-detail-content" class="container mx-auto">
-            <!-- Project details will be injected here -->
-        </div>
-    </div>
+    
 
 
     <script>
         // --- DATA ---
         const projects = [
-            { id: 1, title: "Private Residence", category: "Residential // Glass & Concrete", image: "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", description: "This residence explores the dialogue between transparent and opaque materials, using vast glass panes and raw concrete walls to create a space that is both open to nature and a protective sanctuary.", visuals: ["https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", "https://i.ibb.co/KchGxr3x/A3defterr-13.png"], diagram: "https://i.ibb.co/tMS1vMtW/inno.png" },
-            { id: 2, title: "Burhaniye Sailing Club", category: "Public // Steel", image: "https://i.ibb.co/KchGxr3x/A3defterr-13.png", description: "A lightweight steel structure designed to be a landmark on the coastline. The project emphasizes modularity and a strong connection with the sea, reflecting the dynamism of sailing.", visuals: ["https://i.ibb.co/KchGxr3x/A3defterr-13.png", "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg"], diagram: "https://i.ibb.co/tMS1vMtW/inno.png" },
-            { id: 3, title: "BAUN Innovation Center", category: "Public // Glass & Concrete", image: "https://i.ibb.co/tMS1vMtW/inno.png", description: "The innovation center is conceived as a 'concrete incubator' for ideas. Its robust, solid form provides a stable environment for creative work, while strategically placed openings foster collaboration.", visuals: ["https://i.ibb.co/tMS1vMtW/inno.png", "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg"], diagram: "https://i.ibb.co/KchGxr3x/A3defterr-13.png" },
+            { id: 1, title: "Private Residence", category: "Residential // Glass & Concrete", image: "https://i.ibb.co/pvVMYhvn/1-1-Photo.jpg", description: "This residence explores the dialogue between transparent and opaque materials, using vast glass panes and raw concrete walls to create a space that is both open to nature and a protective sanctuary." },
+            { id: 2, title: "Burhaniye Sailing Club", category: "Public // Steel", image: "https://i.ibb.co/KchGxr3x/A3defterr-13.png", description: "A lightweight steel structure designed to be a landmark on the coastline. The project emphasizes modularity and a strong connection with the sea, reflecting the dynamism of sailing." },
+            { id: 3, title: "BAUN Innovation Center", category: "Public // Glass & Concrete", image: "https://i.ibb.co/tMS1vMtW/inno.png", description: "The innovation center is conceived as a 'concrete incubator' for ideas. Its robust, solid form provides a stable environment for creative work, while strategically placed openings foster collaboration." },
         ];
 
         // --- NAVIGATION & SCROLLING LOGIC ---
@@ -386,52 +380,17 @@ For the "Titan Library" concept design.
             const grid = document.getElementById('project-grid');
             projects.forEach(p => {
                 const projectItem = `
-                    <div class="group relative bg-black p-4 cursor-pointer" onclick="showProject(${p.id})">
+                    <a href="project-${p.id}.html" class="group relative bg-black p-4 cursor-pointer">
                         <img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-opacity duration-200 group-hover:opacity-40">
                         <div class="absolute inset-0 p-4 flex flex-col justify-end bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                              <h3 class="font-brutalist font-bold text-2xl">${p.title}</h3>
                              <p class="font-mono-brutalist text-sm text-gray-400 mt-1">${p.category}</p>
                         </div>
                         <div class="absolute top-0 left-0 p-4 font-mono-brutalist uppercase text-sm group-hover:hidden">${p.title}</div>
-                    </div>
+                    </a>
                 `;
                 grid.innerHTML += projectItem;
             });
-        }
-
-        function showProject(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            if (!project) return;
-            
-            const overlay = document.getElementById('project-overlay');
-            const contentDiv = document.getElementById('project-detail-content');
-            
-            contentDiv.innerHTML = `
-                <div class="pt-16">
-                    <h2 class="font-brutalist font-black text-5xl md:text-7xl uppercase tracking-tighter">${project.title}</h2>
-                    <p class="font-mono-brutalist text-lg text-gray-400 mt-2 mb-8">${project.category}</p>
-                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                        <div class="lg:col-span-3">
-                             <img src="${project.visuals[0]}" alt="Visual for ${project.title}" class="w-full object-cover mb-4 border-2 border-gray-700">
-                             <img src="${project.visuals[1]}" alt="Visual for ${project.title}" class="w-full object-cover border-2 border-gray-700">
-                        </div>
-                        <div class="lg:col-span-2">
-                             <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// DESCRIPTION</h3>
-                             <p class="font-mono-brutalist text-gray-300 leading-relaxed mb-8">${project.description}</p>
-                             <h3 class="font-brutalist font-bold text-2xl uppercase mb-4 text-red-500">// DIAGRAM</h3>
-                             <img src="${project.diagram}" alt="Diagram for ${project.title}" class="w-full object-cover border-2 border-gray-700">
-                        </div>
-                    </div>
-                </div>
-            `;
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function hideProject() {
-            const overlay = document.getElementById('project-overlay');
-            overlay.classList.add('hidden');
-            document.body.style.overflow = 'auto';
         }
 
         // --- MOBILE MENU LOGIC ---
