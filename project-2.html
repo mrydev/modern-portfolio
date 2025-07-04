@@ -50,12 +50,12 @@
             font-family: 'Roboto Mono', monospace;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            animation: bounce 2s infinite;
+            animation: pulse 2s infinite;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         .section-divider {
@@ -71,7 +71,9 @@
     <!-- PANORAMIC HERO SECTION -->
     <section id="pano-hero">
         <a-scene embedded style="height: 100%; width: 100%;">
-            <a-sky src="https://i.ibb.co/3fC2R3s/360-image.jpg" rotation="0 -130 0"></a-sky>
+            <a-sky src="https://i.ibb.co/3fC2R3s/360-image.jpg" rotation="0 -130 0">
+                <a-animation attribute="rotation" dur="90000" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+            </a-sky>
         </a-scene>
         <div class="hero-overlay">
             <a href="index.html#projects-section" class="back-button font-mono-brutalist uppercase bg-white text-black text-sm px-6 py-2 border-2 border-black hover:bg-gray-200 no-underline">
