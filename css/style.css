@@ -1,0 +1,175 @@
+/* Modern tarayıcılar için yumuşak kaydırma (smooth scroll) efekti */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Brutalist bir his için harici fontlar yerine sistem fontlarını kullanma */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Work+Sans:wght@700;900&display=swap');
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.font-brutalist { font-family: 'Work Sans', sans-serif; }
+.font-mono-brutalist { font-family: 'Roboto Mono', monospace; }
+
+/* Blueprint arka plan dokusu için özel sınıf */
+.bg-blueprint {
+    background-image: url("data:image/svg+xml,%3csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cpath d='M0 40V0h40' stroke='%23374151'/%3e%3c/g%3e%3c/svg%3e");
+}
+
+/* Yazma efekti için yanıp sönen imleç */
+.cursor {
+    display: inline-block;
+    background-color: white;
+    margin-left: 2px;
+    width: 4px; /* İmleç kalınlığı */
+    animation: blink 1s infinite;
+}
+.cursor.typing {
+    animation: none; /* Yazarken imlecin yanıp sönmesini durdur */
+}
+
+@keyframes blink {
+    0% { background-color: white; }
+    49% { background-color: white; }
+    50% { background-color: transparent; }
+    99% { background-color: transparent; }
+    100% { background-color: white; }
+}
+
+/* Brutalist Buton Stili */
+.btn-brutalist {
+    position: relative;
+    display: inline-block;
+    border: 2px solid white;
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    box-shadow: 4px 4px 0 0 white; /* Başlangıçtaki katı gölge */
+}
+
+.btn-brutalist:hover {
+    transform: translate(2px, 2px); /* Butonu hafifçe içeri bastır */
+    box-shadow: 2px 2px 0 0 white; /* Gölgeyi küçült */
+}
+
+.btn-brutalist:active {
+    transform: translate(4px, 4px); /* Tıklayınca tamamen bastır */
+    box-shadow: 0 0 0 0 white; /* Gölgeyi tamamen kaldır */
+}
+
+/* Kırmızı Buton Varyasyonu */
+.btn-brutalist.btn-red {
+    border-color: #DC2626; /* red-600 */
+    box-shadow: 4px 4px 0 0 #DC2626;
+}
+
+.btn-brutalist.btn-red:hover {
+    box-shadow: 2px 2px 0 0 #DC2626;
+}
+
+.btn-brutalist.btn-red:active {
+    box-shadow: 0 0 0 0 #DC2626;
+}
+#map {
+    height: 500px; 
+    border: 2px solid #4A5568; 
+}
+
+/* Brutalist Map Stil Ayarlamaları */
+.leaflet-tile-pane {
+    filter: grayscale(1) contrast(1.2) brightness(0.8);
+}
+
+.brutalist-marker-icon {
+    background-color: white;
+    border: 2px solid black;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 0 black;
+    transition: all 0.2s ease-in-out;
+}
+
+.brutalist-marker-icon-highlight {
+    background-color: #DC2626; /* red-600 */
+    border: 2px solid white;
+    width: 20px !important;
+    height: 20px !important;
+    transform: translate(-4px, -4px);
+    box-shadow: 3px 3px 0 0 white;
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 white;
+}
+
+.leaflet-popup-content {
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+}
+
+.leaflet-popup-tip-container {
+    display: none; /* Oku kaldır */
+}
+
+.leaflet-popup-close-button {
+    color: white !important;
+}
+
+/* 3D Sahne Konumlandırma */
+#hero-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Metnin arkasına gönder */
+    opacity: 0.2;
+}
+
+/* Yukarı Çık Butonu */
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 36px;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Başlangıçta gizli */
+    transition: opacity 0.3s;
+    box-shadow: 2px 2px 0 0 black;
+}
+
+/* Preloader Stili */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out;
+}
+
+#preloader-text {
+    font-family: 'Roboto Mono', monospace;
+    color: white;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
